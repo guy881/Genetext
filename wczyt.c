@@ -52,13 +52,13 @@ FILE ** wczytaj_pliki_txt( char ** argv, int * n ) /*Wczytuje n plików*/
 void free_pliki( FILE ** pliki, int n )
 {
 	int i;
-	for( i = 0; i < n; i++ )
-	{	
-		fclose( pliki[i] );
+	for( i = 0; i < n; i++ ){
+		if( pliki[i] != NULL )	
+			fclose( pliki[i] );
 	}
 	free( pliki );
 }
-
+/*
 int main( int argc, char ** argv )
 {
 	int n = argc - 1;
@@ -70,9 +70,9 @@ int main( int argc, char ** argv )
 	if( format_plikow( argv, *dobre_pliki ) == 0 )
 		pliki = wczytaj_pliki_txt( argv, dobre_pliki );
 	else
-	{	printf("niet!\n");
+	{	printf("niet!\n");					*/
 	/*wczytaj_plik_ind*/
-		return 1;
+	/*	return 1;
 	}
 	n = *dobre_pliki;
 	for( i = 0; i < n; i++ )
@@ -81,4 +81,4 @@ int main( int argc, char ** argv )
 	free_pliki( pliki, n );
 
 	return 0;
-}
+}*/
