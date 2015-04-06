@@ -23,7 +23,7 @@ int main( int argc, char ** argv ){
 	int opt;
 	int n_slow;
 	int n_akapitow;
-	int rzad_n_gram;
+	int rzad_n_gram = rzad_n_gramu;
 	FILE * wyjsciowy;
 
 	while( (opt = getopt( argc, argv, "s:a:n:w:p:t" )) != -1 )	//0bsługa opcji

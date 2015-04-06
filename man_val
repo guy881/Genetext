@@ -1,0 +1,4 @@
+valgrind --leak-check=full -v --verbose --show-reachable=yes ./a.out txt.txt
+
+gcc -Wall wwczyt_do_struktur.c wczyt.c -ggdb -g
+
