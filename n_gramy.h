@@ -23,11 +23,18 @@
 
 /* trzeba wczytywac cale linie, dzielic, ladowac do struktur, zliczac wystapienia*/
 
+n_gram * podziel( slowo_s * baza );
+
+void drukuj_ngramy( n_gram * ngramy );
+
+void free_ngramy( n_gram * ngramy );
+
 slowo_s * zapisz_slowa( slowo_s * baza, char * buffer, int * size );
 
 slowo_s * wczytaj_slowa( FILE ** pliki, int pliki_n );
 
 slowo_s * powieksz_baze( slowo_s * baza, int * size );
 
-macierz_s * zlicz( n_gram * ngramy );
+void free_slowa( slowo_s * baza );
+
 #endif

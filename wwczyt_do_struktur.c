@@ -110,7 +110,7 @@ void free_ngramy( n_gram * ngramy ){
 			free( ngramy[i].prefiks );
 	free( ngramy );
 }
-
+/*
 int main( int argc, char ** argv ){
 
 	slowo_s * slowa;
@@ -129,4 +129,4 @@ int main( int argc, char ** argv ){
 	free_ngramy( gramy );
 	free_macierz( licznik );
 	return 0;
-}
+}*/

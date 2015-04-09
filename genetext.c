@@ -2,6 +2,10 @@
 #include <stdlib.h>
 #include <getopt.h>
 #include "wczyt.h"
+#include "zmienne.h"
+#include "n_gramy.h"
+#include "macierz.h"
+#include "generuj.h"
 
 #define liczba_akapitow 2
 #define rzad_n_gramu 3
@@ -9,70 +13,90 @@
 #define posred_nazwa "ind_text.ind"
 #define stat_nazwa "stat"
 
-/*	Użycie: ./genetext [tekstybazowe(.txt)]... [OPCJA]...
-Opcje:
--s liczba słów [LICZBA] (opcjonalne, wyklucza -a)
--a liczba akapitów [LICZBA] (domyślnie 2)
--n rząd n-gramów [LICZBA] (domyślnie 3)
--w plik wyjściowy [NAZWA PLIKU] (domyślnie outText.txt)
--p generowanie plików pośrednich
--t generuje statystyki (opcjonalne)
+char * uzycie = "Użycie: ./genetext [tekstybazowe(.txt)]... [OPCJA]...\n"
+"\tOpcje:\n"
+"\t\t-s liczba słów [LICZBA] (opcjonalne, wyklucza -a)\n"
+"\t\t-a liczba akapitów [LICZBA] (domyślnie 2)\n"
+"\t\t-n rząd n-gramów [LICZBA] (domyślnie 3)\n"
+"\t\t-w plik wyjściowy [NAZWA PLIKU] (domyślnie outText.txt)\n"
+"\t\t-p generowanie plików pośrednich\n"
+"\t\t-t generuje statystyki (opcjonalne)\n";
 
-*/
 int main( int argc, char ** argv ){
 	int opt;
 	int n_slow;
 	int n_akapitow;
-	int rzad_n_gram = rzad_n_gramu;
+        int pliki_n = argc - 1;
+
 	FILE * wyjsciowy;
+	FILE * posred; 
+	FILE * stat;
+	FILE ** pliki_txt;
+
+	slowo_s * slowa;
+        n_gram * ngramy;
+        macierz_s * macierz;
+
+	rzad = 7;
 
 	while( (opt = getopt( argc, argv, "s:a:n:w:p:t" )) != -1 )	//0bsługa opcji
 	  switch( opt ){
 	  case 's':
-		n_slow = optarg;
+		n_slow = atoi( optarg );
 		break;
 	  case 'a':
-		n_akapitow = optarg;
+		n_akapitow = atoi( optarg );
 		break;		
 	  case 'n':
-	  	rzad_n_gram = optarg;
+	  	rzad = atoi( optarg );
 		break;
 	  case 'w':
-		wyjsciowy = fopen( optarg, "w" ); //nazwa domyslna TODO
+		wyjsciowy = fopen( optarg, "w" ); 
 		if( wyjsciowy == NULL)
-			fprintf( stderr, "error\n" );
+			 wyjsciowy = fopen( plik_wyj, "w" );
 		break;
 	  case 'p':
-	  	FILE * posred = fopen( posred_nazwa, "w" );
+		posred = fopen( posred_nazwa, "w" );
 		break;
 	  case 't':
-	  	FILE * stat = fopen( stat_nazwa, "w" );
+	  	stat = fopen( stat_nazwa, "w" );
 		break;
 	  default: 
-	  	int ilosc_pliki = argc - 1;
-		int format;
-		format = format_plikow( argv, ilosc_pliki );
-		if( format == 0 ){
-			FILE ** pliki_txt = wczytaj_pliki_txt( argv, &ilosc_pliki );
-			//TODO laduj_n_gramy()
-		}
-		else if( format == 1 ){
-			FILE * posred_in; // = wczytaj_plik_posredni TODO
-			//generuj_tekst_z_poredniego()
-		}
-		if( format == -1 )
-			fprintf( stderr, "error\n" );
 		break;
 	  }
 
-	wczytaj_pliki(); // pamietaj o posrednich, dodatkowa funkcja
+	int format = format_plikow( argv, pliki_n );
+	if( format == 0 ){
+		pliki_txt = wczytaj_pliki_txt( argv, &pliki_n );
+		if( pliki_txt == NULL ){
+			fprintf( stderr, "%s\n", uzycie );
+			exit( EXIT_FAILURE );
+		}
+	}
+	else if( format == 1 ){
+		FILE * posred_in; // = wczytaj_plik_posredni TODO
+			//generuj_tekst_z_poredniego()
+	}
+	else if( format == -1 ){
+		fprintf( stderr, "%s\n", uzycie );
+		exit( EXIT_FAILURE );
+	}
 
-	zainicjuj stuktury;
-				//dynamiczny przydzial miejsca
-	podziel_na_n_gramy();
-				//wylicz prawdopodobienstwo
-	wylosuj_i_wypisz();
-	
+        slowa = wczytaj_slowa( pliki_txt, pliki_n );
+        ngramy = podziel( slowa );
+        //drukuj_ngramy( ngramy );
+        macierz = zlicz( ngramy );
+        //drukuj_macierz( macierz );
+	wyjsciowy = fopen( plik_wyj, "w" );
+	generuj_tekst( macierz, wyjsciowy, liczba_akapitow, 0 );
+        free_slowa( slowa );
+        free_pliki( pliki_txt, pliki_n );
+        free_ngramy( ngramy );
+        free_macierz( macierz );
+//	fclose( posred );
+//	fclose( stat );
+//	fclose( wyjsciowy );
+
 	//generuj_stat();
 	
 	return 0;
