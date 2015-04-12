@@ -1,1 +1,0 @@
-tafafafdsfddsf argv[i][dlugosc -1] != 't' ||  argv[i][dlugosc -2] != 'x' ||  argv[i][dlugosc -3] != 't' || argv[i][dlugosc -4] != '.' argv[i][dlugosc -1] != 't' ||  argv[i][dlugosc -2] != 'x' ||  argv[i][dlugosc -3] != 't' || argv[i][dlugosc -4] != '.' argv[i][dlugosc -1] != 't' ||  argv[i][dlugosc -2] != 'x' ||  argv[i][dlugosc -3] != 't' || argv[i][dlugosc -4] != '.' :
