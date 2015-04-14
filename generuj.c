@@ -9,9 +9,7 @@
 #define ROZMIAR_AKAPITU 63
 
 int wylosuj_prefiks(){
-	int i;
-	i = rand() % wiersze;
-	return i;
+	return rand() % wiersze;
 }
 
 int dobierz_sufiks( macierz_s wiersz ){
@@ -43,6 +41,14 @@ void generuj_tekst( macierz_s * macierz, FILE * wyjs, int ilosc_akapitow, int il
 	}
 
     if( ilosc_slow == 0 ){ // wybrano -a
+
+	for( akapit = 0; akapit < ilosc_akapitow; akapit++ ){
+	   for( i = 0; i < ROZMIAR_AKAPITU; i++ ){
+		los_suf = wylosuj_prefiks();
+		fprintf( wyjs, "%s ", macierz[los_suf].sufiksy[0].slowo );
+	   }
+	}
+	
 
 	for( akapit = 0; akapit < ilosc_akapitow; akapit++ ){
 	   for( i = 0; i < ROZMIAR_AKAPITU; i++ ){

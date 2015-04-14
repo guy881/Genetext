@@ -8,13 +8,16 @@
 macierz_s * zlicz( n_gram * ngramy ){
         int i, j, k;
         macierz_s * macierz = malloc( ilosc_ngramy * sizeof * macierz );
-//        wiersze = 0; // ilosc wierszy w macierzy
 
         if( ilosc_ngramy > 0 ){
                 dodaj_prefiks_i_sufiks( macierz, ngramy[0], 0 );
                 wiersze++;
         }
-
+	
+	if( rzad == 1 ){
+		fprintf( stderr, "Program uniemozliwia generowanie tekstu za pomocą unigramow\n" );
+		exit( EXIT_FAILURE );	
+	}	
         for( i = 1; i < ilosc_ngramy; i++ ) 
                 for( j = 0 ; j < wiersze; j++ )	
                        for( k = 0; k < rzad - 1; k++ ){ // szuka powtarzajacych sie prefiksow

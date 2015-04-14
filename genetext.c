@@ -8,6 +8,7 @@
 #include "generuj.h"
 #include "posred.h"
 #include "statystyki.h"
+#include <time.h>
 
 #define liczba_akapitow 2
 #define rzad_n_gramu 3
@@ -22,6 +23,8 @@ int main( int argc, char ** argv ){
 	int opt_posred = 0;
 	int opt_posred_in = 0;
 	int opt_stat = 0;
+
+	clock_t timer = clock();
 
 	FILE * wyjsciowy = NULL;
 	FILE * posred = NULL; 
@@ -77,7 +80,12 @@ int main( int argc, char ** argv ){
 	  default: 
 		break;
 	  }
-
+	
+	if( n_akapitow != liczba_akapitow && n_slow != 0 ){
+		fprintf( stderr, "Opcja -s wyklucza -a\n%s\n", uzycie );
+		return EXIT_FAILURE; 
+	}
+	
 	if( wyjsciowy == NULL )
 		wyjsciowy = fopen( plik_wyj, "w" );
 
@@ -88,6 +96,7 @@ int main( int argc, char ** argv ){
 		free_macierz_posred( macierz );
 		fclose( wyjsciowy );
 		fclose( posred_in );
+		printf( "Czas wykonywania: %lu ms\n", clock() - timer);
 		return 0;
 	}
 	pliki_txt = wczytaj_pliki_txt( argv, &pliki_n );
@@ -118,6 +127,6 @@ int main( int argc, char ** argv ){
         	free_slowa( slowa );
         	free_ngramy( ngramy );
         	free_macierz( macierz );
-	
+	printf( "Czas wykonywania: %lu ms\n", clock() - timer);
 	return 0;
 }

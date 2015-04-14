@@ -40,7 +40,7 @@ void stat_wejsc( FILE * stat, macierz_s * macierz ){
 		for( j = 0; j < rzad - 1; j++ ){
 			fprintf( stat, "%s ", macierz[naj[i]].prefiks[j].slowo );
 		}
-		for( j = 0; j < macierz[naj[i]].ilosc_suf; j++ ){
+		for( j = 0; j < macierz[naj[i]].ilosc_suf && j < 4; j++ ){
 			fprintf( stat, "%s ;", macierz[naj[i]].sufiksy[j].slowo );
 		}
 			fprintf( stat, "\n" );
