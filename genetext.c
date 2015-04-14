@@ -7,6 +7,7 @@
 #include "macierz.h"
 #include "generuj.h"
 #include "posred.h"
+#include "statystyki.h"
 
 #define liczba_akapitow 2
 #define rzad_n_gramu 3
@@ -20,6 +21,7 @@ int main( int argc, char ** argv ){
         int pliki_n = argc - 1;
 	int opt_posred = 0;
 	int opt_posred_in = 0;
+	int opt_stat = 0;
 
 	FILE * wyjsciowy = NULL;
 	FILE * posred = NULL; 
@@ -69,6 +71,8 @@ int main( int argc, char ** argv ){
 		break;
 	  case 't':
 	  	stat = fopen( stat_nazwa, "w" );
+		if( stat != NULL )
+			opt_stat = 1;
 		break;
 	  default: 
 		break;
@@ -104,12 +108,16 @@ int main( int argc, char ** argv ){
 		fclose( posred );	
 	}
 	generuj_tekst( macierz, wyjsciowy, n_akapitow, n_slow );
+
+	if( opt_stat == 1 ){ 		//generowanie pliku statystycznego
+		stat_wejsc( stat, macierz ); 
+		stat_wyjsc( stat, n_slow, n_akapitow );
+	}
         	free_pliki( pliki_txt, pliki_n );
 		fclose( wyjsciowy );
         	free_slowa( slowa );
         	free_ngramy( ngramy );
         	free_macierz( macierz );
 	
-//	fclose( stat );
 	return 0;
 }
